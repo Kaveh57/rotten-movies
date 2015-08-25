@@ -16,6 +16,22 @@ task "db:drop" do
   rm_f 'db/db.sqlite3'
 end
 
+desc "Create dummy data"
+task "db:dummy_data" do
+  star_wars = Movie.create({title: "Star Wars"})
+
+  leigh = User.create({
+    username: "leigh",
+    email: "leigh@email.com"
+  })
+
+  star_wars.reviews.create({
+    score: 3,
+    comment: "Awesome",
+    user_id: leigh.id
+  })
+end
+
 task 'db:create_migration' do
   unless ENV["NAME"]
     puts "No NAME specified. Example usage: `rake db:create_migration NAME=create_users`"
